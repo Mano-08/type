@@ -15,27 +15,27 @@ const formSchema = z.object({
 });
 
 export default function Home() {
-    type FormValues = z.infer<typeof formSchema>;
-    const methods = useForm<FormValues>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            firstName: "",
-            lastName: "",
-        },
-    });
+  type FormValues = z.infer<typeof formSchema>;
+  const methods = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+    },
+  });
 
-    function onSubmit(values: z.infer<typeof formSchema>) {
-        console.log(values);
-    }
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    console.log(values);
+  }
 
-    return (
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-            {/* valid name */}
-            <input type="text" {...methods.register("firstName")} />
-            {/* invalid name, caught by ts */}
-            <input type="text" {...methods.register("bingBong")} />
-        </form>
-    )
+  return (
+    <form onSubmit={methods.handleSubmit(onSubmit)}>
+      {/* valid name */}
+      <input type="text" {...methods.register("firstName")} />
+      {/* invalid name, caught by ts */}
+      <input type="text" {...methods.register("bingBong")} />
+    </form>
+  );
 }
 ```
 
@@ -120,6 +120,7 @@ export default function Home() {
 In this example, typescript will complain within the FormField component letting us know that `name` of _bingBong_ is not a key in the form schema. This is great, and lets us create custom components that are typesafe.
 
 ### The problem
+
 While ShadCN is great, I don't really love how you have to pass `control={methods.control}` over and over again for every component you use in the form. React-hook-form has a hook called `useFormContext` that lets us define our form in a provider then subscribe to it's state. This means we should be able to do something like this:
 
 ```typescript
@@ -152,17 +153,17 @@ const TextInput = <TFieldValues extends FieldValues>({
 
 ```typescript
 "use client";
-import TextInput from "@/components/TextInput"
+import TextInput from "@/components/TextInput";
 
 // same as before
 // commenting out to save space
 // const formSchema = ...
 
 export default function Home() {
-//   type FormValues = z.infer<typeof formSchema>;
-//   const methods = useForm<FormValues>({
-//     ...
-//   });
+  //   type FormValues = z.infer<typeof formSchema>;
+  //   const methods = useForm<FormValues>({
+  //     ...
+  //   });
 
   //function onSubmit ...
 
@@ -220,7 +221,7 @@ where nothing is duplicated, it is instead found within the component using Cont
 I've included 5 attempts in the `components` folder above. None of them work correctly. One solution that works is `TextInput.tsx` however, you have to pass the types as a generic to the component which looks horrible and you'd end up with the same problem of having the pass that generic to each instance of the component. Somehow, the ShadCN solution is able to get around this problem, but I think it may be because you are also passing control which is giving it the context it needs.
 
 ```typescript
- <TextInput<FormValues> name="bingBong" />
+<TextInput<FormValues> name="bingBong" />
 ```
 
 If this is impossible, I'm sorry, but I'm not a typescript wizard. My grail component would look like `<TextInput name="firstName" />` and would be typesafe.
