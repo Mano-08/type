@@ -36,42 +36,40 @@ export default function Home() {
 
   return (
     <FormProvider {...methods}>
-      <FormValuesProvider>
-        <form onSubmit={methods.handleSubmit(onSubmit)}>
-          {/* valid name */}
-          <input type="text" {...methods.register("firstName")} />
-          {/* invalid name, caught by ts */}
-          <input type="text" {...methods.register("bingBong")} />
-          {/* valid name */}
-          <TextInput name="firstName" />
-          {/* invalid name, ts doesn't catch it */}
-          <TextInput name="bingBong" />
-          {/* invalid name, ts catches it but requires this gross <FormValues> generic type */}
-          {/* <TextInput<FormValues> name="bingBong" /> */}
-          {/* invalid name, ts doesn't catch it */}
-          <TextInputTwo name="bingBong" />
-          {/* invalid name, ts doesn't catch it */}
-          <TextInputThree name="bingBong" />
-          {/* invalid name, ts doesn't catch it */}
-          {/* <TextInputFour fieldValues={FormValues} name="bingBong" /> */}
-          {/* invalid name, ts doesn't catch it */}
-          <TextInputFive name="bingBong" />
-          {/* invalid name, ts catches it but requires redundently passing control */}
-          <FormField
-            control={methods.control}
-            name="bingBong" // should be "firstName" or "lastName"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>First name</FormLabel>
-                <FormControl>
-                  <input type="text" placeholder="frog" {...field} />
-                </FormControl>
-              </FormItem>
-            )}
-          />
-          <button type="submit">Submit</button>
-        </form>
-      </FormValuesProvider>
+      <form onSubmit={methods.handleSubmit(onSubmit)}>
+        {/* valid name */}
+        <input type="text" {...methods.register("firstName")} />
+        {/* invalid name, caught by ts */}
+        <input type="text" {...methods.register("bingBong")} />
+        {/* valid name */}
+        <TextInput name="firstName" />
+        {/* invalid name, ts doesn't catch it */}
+        <TextInput name="bingBong" />
+        {/* invalid name, ts catches it but requires this gross <FormValues> generic type */}
+        {/* <TextInput<FormValues> name="bingBong" /> */}
+        {/* invalid name, ts doesn't catch it */}
+        <TextInputTwo name="bingBong" />
+        {/* invalid name, ts doesn't catch it */}
+        <TextInputThree name="bingBong" />
+        {/* invalid name, ts doesn't catch it */}
+        {/* <TextInputFour fieldValues={FormValues} name="bingBong" /> */}
+        {/* invalid name, ts doesn't catch it */}
+        <TextInputFive name="bingBong" />
+        {/* invalid name, ts catches it but requires redundently passing control */}
+        <FormField
+          control={methods.control}
+          name="bingBong" // should be "firstName" or "lastName"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>First name</FormLabel>
+              <FormControl>
+                <input type="text" placeholder="frog" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <button type="submit">Submit</button>
+      </form>
     </FormProvider>
   );
 }
